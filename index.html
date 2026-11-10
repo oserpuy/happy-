@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>B-Day — С днём рождения!</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="pin-locked">
+
+  <!-- ================= PIN SCREEN ================= -->
+  <div id="pin-screen" class="pin-screen">
+    <div class="pin-card glass-panel">
+      <div class="pin-lock" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="4.5" y="10.5" width="15" height="10" rx="3"></rect>
+          <path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"></path>
+          <circle cx="12" cy="15.5" r="1.1" fill="currentColor" stroke="none"></circle>
+        </svg>
+      </div>
+
+      <h1 class="pin-title">Секретная страница</h1>
+      <p class="pin-subtitle">Введи свой секретный код, чтобы открыть сюрприз…</p>
+
+      <div class="pin-digits">
+        <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="pin-digit" placeholder="" autocomplete="off" autocorrect="off" spellcheck="false" aria-label="Цифра 1" />
+        <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="pin-digit" placeholder="" autocomplete="off" autocorrect="off" spellcheck="false" aria-label="Цифра 2" />
+        <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="pin-digit" placeholder="" autocomplete="off" autocorrect="off" spellcheck="false" aria-label="Цифра 3" />
+        <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="pin-digit" placeholder="" autocomplete="off" autocorrect="off" spellcheck="false" aria-label="Цифра 4" />
+      </div>
+
+      <p id="pin-error" class="pin-error" role="status" aria-live="polite"></p>
+    </div>
+  </div>
+
+  <!-- ================= BACKGROUND LAYERS ================= -->
+  <div class="bg-gradient"></div>
+  <div class="bg-glow glow-1"></div>
+  <div class="bg-glow glow-2"></div>
+  <canvas id="particles" aria-hidden="true"></canvas>
+
+  <!-- ================= SCROLL PROGRESS (right edge) ================= -->
+  <div id="scroll-progress-track" class="scroll-progress-track">
+    <span id="scroll-progress-fill" class="scroll-progress-fill"></span>
+  </div>
+
+  <!-- ================= NAVBAR ================= -->
+  <nav class="navbar glass-panel">
+    <a href="#hero" class="nav-logo" aria-label="Наверх">B-DAY</a>
+    <ul class="nav-links">
+      <li><a href="#hero" class="nav-link active">Surface</a></li>
+      <li><a href="#moments" class="nav-link">Our Memories</a></li>
+      <li><a href="#letter" class="nav-link">The Letter</a></li>
+      <li><a href="#wish" class="nav-link">A Wish</a></li>
+    </ul>
+
+    <!-- Волна — неотъемлемая часть нижней границы навбара -->
+    <div class="navbar-wave-wrap" aria-hidden="true">
+      <svg class="navbar-wave" viewBox="0 0 2400 36" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="waveGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%"   stop-color="#f7a1c4"/>
+            <stop offset="50%"  stop-color="#e8c46b"/>
+            <stop offset="100%" stop-color="#f7a1c4"/>
+          </linearGradient>
+          <linearGradient id="waveFill" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%"   stop-color="#f7a1c4" stop-opacity="0.18"/>
+            <stop offset="60%"  stop-color="#b07fd4" stop-opacity="0.06"/>
+            <stop offset="100%" stop-color="#1a0e24" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <path class="navbar-wave-fill"
+              d="M0,18 C200,34 400,2 600,18 C800,34 1000,2 1200,18 C1400,34 1600,2 1800,18 C2000,34 2200,2 2400,18 L2400,36 L0,36 Z"
+              fill="url(#waveFill)"></path>
+        <path class="navbar-wave-line"
+              d="M0,18 C200,34 400,2 600,18 C800,34 1000,2 1200,18 C1400,34 1600,2 1800,18 C2000,34 2200,2 2400,18"
+              stroke="url(#waveGrad)" stroke-width="2" fill="none"></path>
+      </svg>
+    </div>
+  </nav>
+
+  <!-- ================= HERO ================= -->
+  <section id="hero" class="hero">
+    <h1 class="hero-title">С&nbsp;днём<br><span class="accent">рождения!</span></h1>
+    <p class="hero-subtitle">
+      Этот сайт я сделал только для тебя. Здесь спрятаны наши лучшие моменты,
+      пара секретных фактов и письмо, которое хочется перечитывать снова и снова.
+      Пролистай всё — обещая, будет тепло.
+    </p>
+
+    <div class="hero-actions">
+      <a href="#moments" class="btn btn-primary">Начать путешествие</a>
+      <a href="#letter" class="btn btn-outline">Прямо к письму</a>
+    </div>
+  </section>
+
+  <!-- ================= MUSIC PLAYER (fixed left) ================= -->
+  <aside id="player" class="music-widget glass-panel" aria-label="Музыкальный плеер">
+    <div class="album-art" aria-hidden="true">
+      <span class="album-inner"></span>
+    </div>
+
+    <h4 class="player-title">Our Song</h4>
+    <span id="track-name" class="track-name">Press play to begin…</span>
+
+    <div class="progress-row">
+      <input type="range" id="progress-bar" class="progress-bar" min="0" max="100" value="0" step="any" aria-label="Прогресс трека" />
+    </div>
+
+    <div class="player-controls">
+      <button id="play-btn" class="btn btn-primary play-btn" aria-pressed="false" aria-label="Воспроизвести / Пауза">
+        <svg class="icon-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        <svg class="icon-pause" viewBox="0 0 24 24" style="display:none"><path d="M6 4h4v16H6zm8 0h4v16h-4z"/></svg>
+      </button>
+
+      <span id="time-display" class="time-display">0:00 / 0:00</span>
+    </div>
+  </aside>
+
+  <!-- Кнопка открытия / закрытия плеера -->
+  <button id="player-toggle" class="player-toggle" type="button" aria-expanded="true" aria-controls="player" aria-label="Закрыть музыкальный плеер">
+    <svg class="icon-note" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M12 3v10.55A4 4 0 1 0 14 17V7h4V3h-6z"/>
+    </svg>
+    <svg class="icon-close" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+    </svg>
+  </button>
+
+  <!-- ================= MOMENTS (TIMELINE) ================= -->
+  <section id="moments" class="gallery-section">
+    <header class="section-header reveal">
+      <h2 class="section-title">Chapters from our story</h2>
+      <div class="title-underline"></div>
+      <p class="section-subtitle">Scroll slowly — every moment mattered.</p>
+    </header>
+
+    <!-- Момент 1 -->
+    <article class="moment-card glass-panel reveal" data-glow="grad-1">
+      <div class="story-copy">
+        <div class="chapter-meta">
+          <span class="chapter-label">CHAPTER ONE</span>
+          <h3>where it all started</h3>
+        </div>
+        <p class="moment-text">
+          Я помню тот день, как в тумане. Сердце колотилось, руки чуть дрожали —
+          и всё это только потому, что ты была рядом. С того момента моя жизнь
+          стала ярче, теплее и полнее.
+        </p>
+      </div>
+      <div class="story-image-container">
+        <img src="assets/photos/photo1-sakura.jpg" alt="Chapter One — под цветущей сакурой" loading="lazy" />
+        <span class="story-image-hint" aria-hidden="true">Добавь фото</span>
+      </div>
+    </article>
+
+    <!-- Момент 2 -->
+    <article class="moment-card glass-panel reveal" data-glow="grad-2">
+      <div class="story-copy">
+        <div class="chapter-meta">
+          <span class="chapter-label">CHAPTER TWO</span>
+          <h3>golden hour, together</h3>
+        </div>
+        <p class="moment-text">
+          Мы забыли обо всём на свете, глядя на экран и проходя уровень за уровнем.
+          И в эти минуты мне не нужны были слова — наш оглушительный хохот на всю
+          комнату и то, как мы смеялись громче всех, было лучшим, что могло произойти.
+        </p>
+      </div>
+      <div class="story-image-container">
+        <img src="assets/photos/photo2-candles.jpg" alt="Chapter Two — вечер при свечах" loading="lazy" />
+        <span class="story-image-hint" aria-hidden="true">Добавь фото</span>
+      </div>
+    </article>
+
+    <!-- Момент 3 -->
+    <article class="moment-card glass-panel reveal" data-glow="grad-3">
+      <div class="story-copy">
+        <div class="chapter-meta">
+          <span class="chapter-label">CHAPTER THREE</span>
+          <h3>mornings that felt like magic</h3>
+        </div>
+        <p class="moment-text">
+          Обычный будничный завтрак, который стал нашим маленьким ритуалом.
+          Два зевка, немного тишины и твоя улыбка — вот что я называю счастьем.
+        </p>
+      </div>
+      <div class="story-image-container">
+        <img src="assets/photos/photo3-mirror.jpg" alt="Chapter Three — утреннее отражение" loading="lazy" />
+        <span class="story-image-hint" aria-hidden="true">Добавь фото</span>
+      </div>
+    </article>
+
+    <!-- Момент 4 -->
+    <article class="moment-card glass-panel reveal" data-glow="grad-4">
+      <div class="story-copy">
+        <div class="chapter-meta">
+          <span class="chapter-label">CHAPTER FOUR</span>
+          <h3>the night we became a song</h3>
+        </div>
+        <p class="moment-text">
+          Ты пела во весь голос, срывая голос на каждом куплете наизусть, и смотрела
+          на меня так, будто мы одни на всём свете. Я понял тогда: петь с тобой
+          в один микрофон этой ночью — лучшее, что могло случиться.
+        </p>
+      </div>
+      <div class="story-image-container">
+        <img src="assets/photos/photo4-clown.jpg" alt="Chapter Four — ночь, ставшая песней" loading="lazy" />
+        <span class="story-image-hint" aria-hidden="true">Добавь фото</span>
+      </div>
+    </article>
+
+    <!-- Момент 5 -->
+    <article class="moment-card glass-panel reveal" data-glow="grad-5">
+      <div class="story-copy">
+        <div class="chapter-meta">
+          <span class="chapter-label">CHAPTER FIVE</span>
+          <h3>above the clouds</h3>
+        </div>
+        <p class="moment-text">
+          Каждый раз, когда я выхожу на прогулку, я невольно поднимаю глаза к небу.
+          Я смотрю на плывущие облака и ловлю себя на мысли, что в этот момент
+          думаю только о тебе — ты со мной, где бы я ни был.
+        </p>
+      </div>
+      <div class="story-image-container">
+        <img src="assets/photos/photo5-spiderman.jpg" alt="Chapter Five — наши супергеройские будни" loading="lazy" />
+        <span class="story-image-hint" aria-hidden="true">Добавь фото</span>
+      </div>
+    </article>
+
+    <!-- Момент 6 -->
+    <article class="moment-card glass-panel reveal" data-glow="grad-6">
+      <div class="story-copy">
+        <div class="chapter-meta">
+          <span class="chapter-label">CHAPTER SIX</span>
+          <h3>every ordinary night with you</h3>
+        </div>
+        <p class="moment-text">
+          Нет, это не про что-то грандиозное. Это про то, как ты засыпаешь
+          рядом со мной после долгого дня. Про тихие «спокойной ночи». Про то,
+          что ты — мой самый надёжный дом. И я люблю тебя за всё это.
+        </p>
+      </div>
+      <div class="story-image-container">
+        <img src="assets/photos/photo6-swing.jpg" alt="Chapter Six — осенние качели" loading="lazy" />
+        <span class="story-image-hint" aria-hidden="true">Добавь фото</span>
+      </div>
+    </article>
+  </section>
+
+  <!-- ================= LETTER ================= -->
+  <section id="letter" class="letter-section">
+    <div class="letter-panel glass-panel reveal">
+      <header class="section-header reveal">
+        <h2 class="section-title">A letter for you</h2>
+        <div class="title-underline"></div>
+      </header>
+
+      <p class="letter-greeting" style="font-size:1.3rem; font-style:italic; color:var(--accent-pink); margin-bottom:1.5rem;">
+        Той, чей день сегодня самый главный…
+      </p>
+
+      <div class="letter-body">
+        <p style="margin-bottom:1.2rem;">
+          Я не самый словесный  человек на свете, поэтому скажу коротко, но от всего сердца:
+          ты — лучшее, что случилось со мной за всю мою жизнь. Не в день рождения, не в годовщину,
+          а каждый обычный вторник и пятницу, когда мы просто есть рядом друг с другом.
+        </p>
+        <p style="margin-bottom:1.2rem;">
+          Спасибо, что ты терпишь мои шутки посреди ночи, мою навигацию без карты и привычку
+          «ну ещё пять минуточек». Спасибо за то, что смеёшься громче всех, что обнимаешь крепче
+          всех и веришь в меня даже тогда, когда я сам не верю.
+        </p>
+        <p style="margin-bottom:1.2rem;">
+          В этот день я желаю тебе всего того, о чём ты мечтаешь даже в тишине. Чтобы каждый
+          новый год твоей жизни был ярче предыдущего. Чтобы рядом всегда были люди, которые
+          ценят тебя так же сильно, как это делаю я. И чтобы ты знала: где бы ты ни была —
+          мой мысленный компас всегда указывает на тебя.
+        </p>
+        <p style="margin-bottom:1.2rem;">
+          С днём рождения, моя родная. Пусть этот год будет нашим самым тёплым годом.
+        </p>
+      </div>
+
+      <p class="letter-signature">— навсегда твой</p>
+    </div>
+  </section>
+
+  <!-- ================= WISH CANDLE ================= -->
+  <section id="wish" class="wish-section">
+    <header class="section-header reveal">
+      <h2 class="section-title">Make a wish</h2>
+      <div class="title-underline"></div>
+      <p class="section-subtitle">Загадай самое сокровенное — и задуй свечу.</p>
+    </header>
+
+    <div class="wish-stage glass-panel reveal">
+      <div class="candle-scene">
+        <div id="candle" class="candle" role="button" tabindex="0" aria-pressed="false" aria-label="Задуть свечу">
+          <div class="candle-glow" aria-hidden="true"></div>
+
+          <div class="candle-flame-wrap" aria-hidden="true">
+            <span class="candle-flame"></span>
+            <span class="candle-flame-core"></span>
+          </div>
+
+          <div class="candle-smoke" aria-hidden="true">
+            <span></span><span></span><span></span>
+          </div>
+
+          <div class="candle-wick" aria-hidden="true"></div>
+          <div class="candle-body" aria-hidden="true"><span class="candle-wax"></span></div>
+          <div class="candle-holder" aria-hidden="true"></div>
+        </div>
+      </div>
+
+      <p id="wish-status" class="wish-status" role="status" aria-live="polite">Загадай желание…</p>
+
+      <div id="breath-meter" class="breath-meter" aria-hidden="true">
+        <span id="breath-level"></span>
+      </div>
+
+      <div class="wish-actions">
+        <button id="mic-btn" class="btn btn-primary" type="button">Включить микрофон</button>
+        <button id="blow-btn" class="btn btn-outline" type="button">Задуть вручную</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="footer">
+    <p>Сделано с любовью, для тебя одной · B-Day © 2026</p>
+  </footer>
+
+  <!-- Музыка: просто замени файл в assets/audio/ или путь в src -->
+  <audio id="bgMusic" src="assets/audio/birthday-song.mp3" preload="metadata" playsinline></audio>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
